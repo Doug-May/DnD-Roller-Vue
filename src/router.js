@@ -9,7 +9,7 @@ import store from '@/store.js'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -21,7 +21,10 @@ export default new Router({
     {
       path: '/rolls',
       name: 'rolls',
-      component: Rolls
+      component: Rolls,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/about',
@@ -32,24 +35,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login,
-      beforeEnter: (to, from, next) => {
-        if(store.state.isLoggedIn) {
-          next('/');
-        } else {
-          next();
-        }
+      meta: {
+        redundantRoute: true
       }
     },
     {
       path: '/register',
       name: 'register',
       component: Register,
-      beforeEnter: (to, from, next) => {
-        if(store.state.isLoggedIn) {
-          next('/');
-        } else {
-          next();
-        }
+      meta: {
+        redundantRoute: true
       }
     }    
   ],
@@ -61,3 +56,24 @@ export default new Router({
     });
   }
 })
+
+router.beforeEach((to, from, next) => {
+  //check if route requires auth and then redundancy
+  if (to.matched.some(rec => rec.meta.requiresAuth)) {
+    if (store.state.isLoggedIn) {
+      next();
+    } else {
+      next('/login');
+    }
+  } else if (to.matched.some(rec => rec.meta.redundantRoute)) {
+    if(store.state.isLoggedIn) {
+      next('/')
+    } else {
+      next()
+    }
+  } else {
+    next();
+  }
+})
+
+export default router

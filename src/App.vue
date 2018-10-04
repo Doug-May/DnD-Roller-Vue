@@ -13,13 +13,17 @@
 
 <script>
 import Header from '@/components/PageHeaderComp.vue'
+import firebase from 'firebase'
 export default {
   name: 'App',
   components: {
     Header
   },
-  beforeCreate() {
-      this.$store.dispatch("checkPersisted");      
+  created() {
+        let user = firebase.auth().currentUser;
+        if (user) {        
+          this.$store.dispatch("persistedLogin", user);
+        }          
   }
 }
 </script>

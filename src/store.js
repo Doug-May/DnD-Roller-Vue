@@ -8,29 +8,29 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLoggedIn: false,
-    email: '',
+    uid: null,
+    email: null,
     errors: {}
   },
   mutations: {
-    LOGIN(state, payload) {
+    LOGIN(state, user) {
       state.isLoggedIn = true;
-      router.push("/rolls");
+      state.uid = user.uid;
+      state.email = user.email;
+      router.push("/");
     },
     LOGOUT(state) {
       state.isLoggedIn = false;
+      state.uid = null;
+      state.email = null;
       router.push("/login");
-    },
-    CHECK_PERSISTED(state, user) {
-      state.isLoggedIn = true;
-      state.email = user.email;
-      router.push("/");      
     }
   },
   actions: {
     login({ commit }, payload) {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-      .then(response => {        
-        commit("LOGIN", response.data);
+      .then(cred => {        
+        commit("LOGIN", cred.user);
       })
       .catch(error => {
         console.log(error);
@@ -45,12 +45,8 @@ export default new Vuex.Store({
         console.log(error);
       });
     },
-    checkPersisted({ commit }) {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {          
-          commit("CHECK_PERSISTED", user);
-        }
-      });
+    persistedLogin({ commit }, user) {      
+          commit("LOGIN", user);     
     }
   }
 })
