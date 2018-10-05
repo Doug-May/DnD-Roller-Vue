@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LoginComp from "@/components/LoginComp.vue";
+import LoginComp from "@/components/user/LoginComp.vue";
 export default {
   name: "login",
   components: {

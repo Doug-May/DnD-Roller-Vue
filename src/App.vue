@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Header from '@/components/PageHeaderComp.vue'
+import Header from '@/components/layout/PageHeaderComp.vue'
 import firebase from 'firebase'
 export default {
   name: 'App',
@@ -41,9 +41,21 @@ export default {
 
 .myCard {
   background-color: #f4f4f4;
-  padding: 30px;
+  padding: 5px;
+  margin: 10px 0px;
   border-radius: 10px;
   box-shadow: 5px 5px 25px #151515;
+}
+
+.myCardDark {
+  background-color: #353331;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px #d6d4d4;
+}
+
+.flexWrapper {
+ padding: 5px;
 }
 
 .loginBox {
@@ -55,18 +67,23 @@ export default {
   font-family: "Roboto", sans-serif !important;
   box-shadow: none !important;
   background-color: #f4f4f4 !important;
+  
+}
+
+.alert h1,h2,h3,h4,h5,p {
+  font-weight: 300 !important;
+  letter-spacing: 2px !important;
 }
 
 a {
   text-decoration: none;
 }
 
-h1 {
+h1,h2,h3,h4,h5 {
   font-weight: 300;
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
+
 
 p {
   letter-spacing: 1px;

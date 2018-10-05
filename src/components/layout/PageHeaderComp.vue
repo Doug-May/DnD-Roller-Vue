@@ -4,7 +4,7 @@
       <v-toolbar flat color="#353331">
         <v-layout row>
           <v-flex xs12>            
-            <img id="logo" @click="$router.push('/')" src="../assets/logo.png">            
+            <img id="logo" @click="$router.push('/')" src="@/assets/logo.png">            
             <h4 
             v-if="!$store.state.isLoggedIn"
             class="headerLink" 

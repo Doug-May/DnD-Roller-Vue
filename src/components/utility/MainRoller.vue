@@ -6,14 +6,14 @@
     class="myCard" 
     >        
             <v-layout row justify-space-between>
-                <v-flex xs4>
+                <v-flex xs5>
                     <img id="dice" :src="imgSRC" @click="initiateRoll(null)">
                 </v-flex>
-                <v-flex id="history" xs7>                   
+                <v-flex id="history" xs6>                   
                     <v-menu
                     v-if="this.rollHistory.length > 0"                    
                     bottom>
-                        <h2 class="darkText" slot="activator">Roll History</h2>                                                
+                        <h2 class="darkText" slot="activator">History</h2>                                                
                         <v-icon
                         slot="activator"                       
                         color="secondary"
@@ -32,8 +32,8 @@
                         </v-list>
                     </v-menu>
                     <div v-else>
-                        <h2 class="darkText">Roll History</h2> 
-                        <h5 class="darkText">Make Your First Roll</h5>
+                        <h2 class="darkText">History</h2> 
+                        <h5 class="darkText">Make a Roll</h5>
                     </div>                     
                 </v-flex>                 
             </v-layout>
@@ -101,7 +101,7 @@
             id="submitButton"
             color="secondary"           
             >
-            Roll!
+            Roll
             </v-btn>
     </v-container>
 </template>
@@ -194,14 +194,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     #roller {
         max-width: 400px;
+        padding: 25px;
     }
     #dice {
         cursor: pointer;
-        width: 70px;
-        margin-left: 15px;
+        max-width: 70px;
+        margin-left: 25px;
+        margin-bottom: 20px;
     }
     #clear {
         cursor: pointer;
