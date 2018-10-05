@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-form ref="form" lazy-validation class="loginBox">
+    <v-form ref="form" lazy-validation class="loginBox myCard">
       <h1 class="darkText">Login</h1>
     <v-text-field
       @keyup.enter="login"
@@ -85,13 +85,6 @@ export default {
 </script>
 
 <style scoped>
-.loginBox {
-  background-color: #f4f4f4;
-  padding: 30px;
-  border-radius: 10px;
-  max-width: 700px;
-  margin: auto;
-}
 
 #submitButton {
   margin: 0 auto;

@@ -39,6 +39,24 @@ export default {
   font-family: "Roboto", sans-serif;
 }
 
+.myCard {
+  background-color: #f4f4f4;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 25px #151515;
+}
+
+.loginBox {
+  max-width: 700px;
+  margin: auto;
+}
+
+.alert {
+  font-family: "Roboto", sans-serif !important;
+  box-shadow: none !important;
+  background-color: #f4f4f4 !important;
+}
+
 a {
   text-decoration: none;
 }
