@@ -1,108 +1,59 @@
 <template>
-    <v-container 
-    id="roller" 
-    align-center 
-    justify-center 
-    class="myCard" 
-    >        
-            <v-layout row justify-space-between>
-                <v-flex xs5>
-                    <img id="dice" :src="imgSRC" @click="initiateRoll(null)">
-                </v-flex>
-                <v-flex id="history" xs6>                   
-                    <v-menu
-                    v-if="this.rollHistory.length > 0"                    
-                    bottom>
-                        <h2 class="darkText" slot="activator">History</h2>                                                
-                        <v-icon
-                        slot="activator"                       
-                        color="secondary"
-                        dark
-                        >
+    <v-container id="roller" align-center justify-center class="myCard">
+        <v-layout row justify-space-between>
+            <v-flex xs5>
+                <img id="dice" :src="imgSRC" @click="initiateRoll(null)">
+            </v-flex>
+            <v-flex id="history" xs6>
+                <v-menu v-if="this.rollHistory.length > 0" bottom>
+                    <h2 class="darkText" slot="activator">History</h2>
+                    <v-icon slot="activator" color="secondary" dark>
                         arrow_drop_down
-                        </v-icon>                        
-                        <v-list>
-                            <v-list-tile
-                            v-for="(roll, i) in this.rollHistory"
-                            :key="i"
-                            @click="initiateRoll(rollHistory[i])"
-                            >
-                            <v-list-tile-title>({{ roll.number }})d{{ roll.diceType}} + {{ roll.modifier}}</v-list-tile-title>                           
-                            </v-list-tile>
-                        </v-list>
-                    </v-menu>
-                    <div v-else>
-                        <h2 class="darkText">History</h2> 
-                        <h5 class="darkText">Make a Roll</h5>
-                    </div>                     
-                </v-flex>                 
-            </v-layout>
-            <v-layout row justify-space-around  align-center>
-                <v-flex xs2>
-                    <v-tooltip top>
-                        <v-text-field
-                        type="number"
-                        min=1
-                        max=100
-                        slot="activator"
-                        placeholder="1"
-                        v-model="number"                
-                        color="accent"
-                        height="20px"
-                        oninput="validity.valid||(value=100);"
-                        ></v-text-field>
-                        <span>Number of Dice</span>
-                    </v-tooltip>                    
-                </v-flex>
-                <v-flex xs2>                   
-                        <v-select                
-                        slot="activator"
-                        v-model="diceType"                 
-                        :items="dice"                   
-                        color="accent"
-                        height="20px"                  
-                        ></v-select>                                           
-                </v-flex> 
-                <v-flex xs2>
-                    <h2 id="plus" class="text-xs-center darkText">+</h2>
-                </v-flex>
-                <v-flex xs2>
-                    <v-tooltip top>
-                        <v-text-field
-                        type="number"
-                        min=0
-                        max=100           
-                        slot="activator"
-                        placeholder="0"
-                        v-model="modifier"
-                        color="accent"
-                        height="20px"
-                        oninput="validity.valid||(value=100);"
-                        ></v-text-field>
-                        <span>Modifier</span>
-                    </v-tooltip>
-                    
-                </v-flex>                
-                <v-flex xs2 > 
-                    <v-slide-y-transition>
-                        <v-icon                         
-                        v-if="this.number || this.diceType !== 'd20' || this.modifier"                     
-                        @click="clear"
-                        slot="activator" 
-                        id="clear"
-                        >clear</v-icon> 
-                    </v-slide-y-transition>                                                                                                                                                            
-                </v-flex>                                              
-            </v-layout>
-            <v-btn
-            @click="initiateRoll(null)"
-            block
-            round
-            id="submitButton"
-            color="secondary"           
-            >
+                    </v-icon>
+                    <v-list>
+                        <v-list-tile v-for="(roll, i) in this.rollHistory" :key="i" @click="initiateRoll(rollHistory[i])">
+                            <v-list-tile-title>({{ roll.number }})d{{ roll.diceType}} + {{ roll.modifier}}</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
+                <div v-else>
+                    <h2 class="darkText">History</h2>
+                    <h5 class="darkText">Make a Roll</h5>
+                </div>
+            </v-flex>
+        </v-layout>
+        <v-layout row justify-space-around align-center>
+            <v-flex xs2>
+                <v-tooltip top>
+                    <v-text-field type="number" min=1 max=100 slot="activator" placeholder="1" v-model="number" color="accent"
+                        height="15px" oninput="validity.valid||(value=100);"></v-text-field>
+                    <span>Number of Dice</span>
+                </v-tooltip>
+            </v-flex>
+            <v-flex xs2>
+                <v-select slot="activator" v-model="diceType" :items="dice" color="accent" height="15px"></v-select>
+            </v-flex>
+            <v-flex xs2>
+                <h2 id="plus" class="text-xs-center darkText">+</h2>
+            </v-flex>
+            <v-flex xs2>
+                <v-tooltip top>
+                    <v-text-field type="number" min=0 max=100 slot="activator" placeholder="0" v-model="modifier" color="accent"
+                        height="15px" oninput="validity.valid||(value=100);"></v-text-field>
+                    <span>Modifier</span>
+                </v-tooltip>
+
+            </v-flex>
+            <v-flex xs2>
+                <v-slide-y-transition>
+                    <v-icon v-if="this.number || this.diceType !== 'd20' || this.modifier" @click="clear" slot="activator"
+                        id="clear">clear</v-icon>
+                </v-slide-y-transition>
+            </v-flex>
+        </v-layout>
+        <v-btn @click="initiateRoll(null)" block round id="submitButton" color="secondary">
             Roll
-            </v-btn>
+        </v-btn>
     </v-container>
 </template>
 
@@ -168,7 +119,7 @@ export default {
             //send the object off for rolling after rollHistory has been updated                 
             this.makeRoll(diceObj);                      
         },
-        makeRoll(diceObj) {            
+        makeRoll(diceObj) {         
             let counter = 0;
             let n = diceObj.number;
             let m = diceObj.modifier;
@@ -196,14 +147,13 @@ export default {
 
 <style scoped>
     #roller {
-        max-width: 400px;
+        max-width: 350px;
         padding: 25px;
     }
     #dice {
         cursor: pointer;
         max-width: 70px;
         margin-left: 25px;
-        margin-bottom: 20px;
     }
     #clear {
         cursor: pointer;

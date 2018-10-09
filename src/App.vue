@@ -35,16 +35,17 @@ export default {
 
 #app {
   background-color: #353331;
-  color: #c0c0c0;
+  color: #d0d0d0;
   font-family: "Roboto", sans-serif;
 }
 
 .myCard {
   background-color: #f4f4f4;
   padding: 5px;
-  margin: 10px 0px;
+  margin: 12px auto;
   border-radius: 10px;
   box-shadow: 5px 5px 25px #151515;
+  width: 100%;
 }
 
 .myCardDark {
@@ -52,15 +53,20 @@ export default {
   padding: 15px;
   border-radius: 10px;
   box-shadow: 5px 5px 10px #d6d4d4;
+  /* max-width: 400px; */
+  margin: 0px auto;
 }
 
 .flexWrapper {
  padding: 5px;
+ margin: 0px auto;
+ width: 100%;
 }
 
 .loginBox {
   max-width: 700px;
   margin: auto;
+  padding: 30px;
 }
 
 .alert {
@@ -70,10 +76,11 @@ export default {
   
 }
 
-.alert h1,h2,h3,h4,h5,p {
+.alert h1,h2,h3,h4,h5 {
   font-weight: 300 !important;
   letter-spacing: 2px !important;
 }
+
 
 a {
   text-decoration: none;
@@ -84,11 +91,10 @@ h1,h2,h3,h4,h5 {
   letter-spacing: 2px;
 }
 
-
 p {
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   font-size: 14px;
-  font-weight: 200;
+  font-weight: 300;
 }
 
 .redirect {

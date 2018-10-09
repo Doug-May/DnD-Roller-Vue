@@ -111,7 +111,6 @@
 </template>
 
 <script>
-//import loginValidation from "../../services/validation/login.js";
 export default {
   name: "Register",
   data: function() {
@@ -127,10 +126,8 @@ export default {
   methods: {
     register: function() {
       const req = {
-        name: this.name,
         email: this.email,
-        password: this.password,
-        password2: this.password2
+        password: this.password       
       };
       this.$store.dispatch("register", req);
     }
@@ -150,5 +147,9 @@ export default {
 p {
   text-align: center;
   margin-top: 30px;
+}
+
+h1 {
+  margin-bottom: 20px;
 }
 </style>

@@ -24,6 +24,9 @@ export default new Vuex.Store({
       state.uid = null;
       state.email = null;
       router.push("/login");
+    },
+    REGISTER() {
+      router.push("/login");
     }
   },
   actions: {
@@ -31,6 +34,15 @@ export default new Vuex.Store({
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(cred => {        
         commit("LOGIN", cred.user);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    },
+    register({ commit }, payload) {
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+      .then(() => {
+        commit("REGISTER");
       })
       .catch(error => {
         console.log(error);

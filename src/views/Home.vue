@@ -1,23 +1,39 @@
 <template>
-    <v-container>
+<div>
+    <v-layout row wrap justify-center>
+        <v-flex xs12>
+            <main-roller/>
+        </v-flex>
+    </v-layout>  
+    <div v-if="this.$store.state.isLoggedIn">
         <v-layout row wrap justify-center>
-            <v-flex xs12>
-                <main-roller/>
-            </v-flex>
-            <v-flex xs12>
+            <v-flex xs12 >
                 <custom/>
             </v-flex>
-        </v-layout>        
-    </v-container>
+        </v-layout>
+        <v-layout row wrap justify-center>
+            <v-flex xs12>
+                <room/>
+            </v-flex>
+        </v-layout>                                
+    </div>
+    <div v-else>                
+        <h4>Login for online features!</h4>    
+    </div> 
+</div>    
+                   
+                  
 </template>
 
 <script>
 import MainRoller from "@/components/utility/MainRoller.vue";
 import Custom from "@/components/utility/CustomRollsComp.vue";
+import Room from "@/components/utility/Room.vue";
 export default {
     components: {
         MainRoller,
-        Custom
+        Custom,
+        Room
     }
 }
 </script>

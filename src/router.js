@@ -4,7 +4,8 @@ import Home from './views/Home.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import About from '@/views/About.vue'
-import Rolls from '@/views/Rolls.vue'
+import Add from '@/views/Add.vue'
+import Edit from '@/views/Edit.vue'
 import store from '@/store.js'
 
 Vue.use(Router)
@@ -19,9 +20,17 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/rolls',
-      name: 'rolls',
-      component: Rolls,
+      path: '/add',
+      name: 'add',
+      component: Add,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/edit/:slug',
+      name: 'edit',
+      component: Edit,
       meta: {
         requiresAuth: true
       }

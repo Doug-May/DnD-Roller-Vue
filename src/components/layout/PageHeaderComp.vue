@@ -14,12 +14,7 @@
             v-if="$store.state.isLoggedIn"
             class="headerLink" 
             @click="logout">
-            Logout</h4>
-            <h4 
-            v-if="$store.state.isLoggedIn"
-            class="headerLink" 
-            @click="$router.push('/rolls')">
-            Rolls</h4>                                                                    
+            Logout</h4>                                                                          
             <h4      
             class="headerLink" 
             @click="$router.push('/about')">
