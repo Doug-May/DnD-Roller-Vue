@@ -1,7 +1,7 @@
 <template>
-    <v-container>
+    <div>
         <add-roll/>       
-    </v-container>
+    </div>
 </template>
 
 <script>

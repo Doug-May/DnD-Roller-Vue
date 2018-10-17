@@ -6,7 +6,7 @@
             </v-flex>
             <v-flex id="history" xs6>
                 <v-menu v-if="this.rollHistory.length > 0" bottom>
-                    <h2 class="darkText" slot="activator">History</h2>
+                    <h3 class="darkText" slot="activator">History</h3>
                     <v-icon slot="activator" color="secondary" dark>
                         arrow_drop_down
                     </v-icon>
@@ -17,7 +17,7 @@
                     </v-list>
                 </v-menu>
                 <div v-else>
-                    <h2 class="darkText">History</h2>
+                    <h3 class="darkText">History</h3>
                     <h5 class="darkText">Make a Roll</h5>
                 </div>
             </v-flex>
@@ -59,6 +59,7 @@
 
 <script>
 import swal from "sweetalert2";
+import firebase from "@/firebase/init.js";
 export default {
     name: "MainRoller",
     data: function() {
@@ -121,6 +122,10 @@ export default {
         },
         makeRoll(diceObj) {         
             let counter = 0;
+            let roll = {};
+            roll.userName = this.$store.state.userName;
+            roll.room = this.$store.state.roomID;
+            roll.timestamp = Date.now();
             let n = diceObj.number;
             let m = diceObj.modifier;
             let t = diceObj.diceType;
@@ -128,7 +133,12 @@ export default {
                 counter += Math.ceil(Math.random()*t);
             }
             let total = counter + m;
+            roll.attack = total;
             let title = "You rolled: " + total;
+            //if in a room, add the result to firebase messages
+            if(this.$store.state.inRoom) {
+                firebase.firestore().collection("messages").doc().set(roll);
+            }
             swal({                  
                     position: 'top',                    
                     title: title,
@@ -167,7 +177,7 @@ export default {
         font-size: 12px;
     }
     #history {
-        margin-top: 15px;
+        margin-top: 10px;
         margin-left: 35px;
     }
     #plus {

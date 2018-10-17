@@ -1,11 +1,12 @@
 <template>
   <div>
     <v-form ref="form" lazy-validation class="loginBox myCard">
-      <h1 class="darkText">Register</h1>
+      <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
+      <h1 class="darkText text-xs-center">Register</h1>
     <v-text-field
       @keyup.enter="register"
       v-if="$store.state.errors.name"   
-      v-model="name"
+      v-model="userName"
       label="User Name"
       color="#a04b4b"
       outline
@@ -16,7 +17,7 @@
     <v-text-field
       v-else
       @keyup.enter="register"
-      v-model="name"
+      v-model="userName"
       outline
       color="secondary"
       label="User Name"
@@ -115,7 +116,7 @@ export default {
   name: "Register",
   data: function() {
     return {
-      name: "",
+      userName: "",
       password: "",
       password2: "",
       email: "",
@@ -126,8 +127,9 @@ export default {
   methods: {
     register: function() {
       const req = {
-        email: this.email,
-        password: this.password       
+        userName: this.userName.trim(),
+        email: this.email.trim(),
+        password: this.password.trim()       
       };
       this.$store.dispatch("register", req);
     }

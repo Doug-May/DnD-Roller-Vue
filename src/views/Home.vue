@@ -5,7 +5,7 @@
             <main-roller/>
         </v-flex>
     </v-layout>  
-    <div v-if="this.$store.state.isLoggedIn">
+    <div v-if="this.$store.state.uid">
         <v-layout row wrap justify-center>
             <v-flex xs12 >
                 <custom/>
@@ -18,7 +18,7 @@
         </v-layout>                                
     </div>
     <div v-else>                
-        <h4>Login for online features!</h4>    
+        <h4 class="text-xs-center">Login for online features!</h4>    
     </div> 
 </div>    
                    

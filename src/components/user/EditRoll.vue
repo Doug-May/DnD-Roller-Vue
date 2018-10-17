@@ -1,6 +1,7 @@
 <template>
     <div id="add" class="loginBox myCard">
-        <h1 class="darkText">Edit Roll</h1>
+        <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
+        <h1 class="darkText text-xs-center">Edit Roll</h1>
         <v-text-field
         label="Name of Roll"
         color="secondary"
@@ -129,6 +130,7 @@ export default {
                 }
                 db.collection("rolls").doc(this.rollID).update(newRoll)
                 .then(() => {
+                    this.$store.dispatch("refreshUser");
                     this.$router.push("/");
                 })
                 .catch(error => {

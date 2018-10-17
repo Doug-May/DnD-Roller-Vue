@@ -1,14 +1,22 @@
 <template>
     <div id="room" class="myCard">
-        <h2 class="darkText text-xs-center">Room</h2>
-        <div style="height: 200px;"></div>
+        <room-chat v-if="this.$store.state.inRoom"/>
+        <join-room v-else/>        
     </div>
 </template>
 
-<style scoped>
-#room {
-        position: relative;
-        max-width: 1100px;
-        min-width: 340px;           
+<script>
+import JoinRoom from "@/components/user/JoinRoom.vue";
+import RoomChat from "@/components/utility/RoomChat.vue";
+export default {
+    components: {
+        JoinRoom,
+        RoomChat
     }
+}
+</script>
+
+
+<style scoped>
+
 </style>

@@ -2,11 +2,11 @@
     <div id="custom" class="myCard">
         <h2 class="darkText text-xs-center">Custom Rolls</h2>
         <loader v-if="loading" />
-        <v-container v-else align-center>
-            <h4 class="text-xs-center darkText" v-if="rolls.length == 0">Your saved rolls will show up here</h4>
-            <v-icon v-if="rolls.length < 8" id="addRoll" color="secondary" size="35" @click="$router.push('/add')">add_circle</v-icon>
+        <div v-else>
+            <h4 class="text-xs-center darkText" v-if="this.$store.state.rolls.length == 0">Your saved rolls will show up here</h4>
+            <v-icon v-if="this.$store.state.rolls.length < 8" id="addRoll" color="secondary" size="35" @click="$router.push('/add')">add_circle</v-icon>
             <v-layout row justify-space-between wrap>
-                <v-flex xlg3 lg4 md6 xs12 v-for="(roll, i) in rolls" :key="i" class="flexWrapper">
+                <v-flex xlg3 lg4 md6 xs12 v-for="(roll, i) in this.$store.state.rolls" :key="i" class="flexWrapper">
                     <v-layout row wrap justify-space-around align-center class="myCardDark">
                         <v-flex xs12>
                             <h3 class="text-xs-center">{{ roll.name }}</h3>
@@ -25,12 +25,12 @@
                             </div>
                         </v-flex>
                         <v-flex xs2>
-                            <v-btn @click="rollCustom(rolls[i])" class="rollButton" color="secondary" round>Roll</v-btn>
+                            <v-btn @click="rollCustom(i)" class="rollButton" color="secondary" round>Roll</v-btn>
                         </v-flex>
                     </v-layout>
                 </v-flex>
             </v-layout>
-        </v-container>
+        </div>
     </div>
 </template>
 
@@ -39,26 +39,31 @@ import Loader from "@/components/layout/Loader.vue";
 import swal from "sweetalert2";
 import firebase from "@/firebase/init.js";
 const db = firebase.firestore();
+import store from "@/store.js";
 export default {
     components: {
         Loader
     },
     data() {
         return {
-            rolls: [],
-            loading: true
+            loading: false
         }
     },
     methods: {
         deleteRoll(id) {
             db.collection("rolls").doc(id).delete()
             .then(() => {
-                this.rolls = this.rolls.filter(roll => {
+                store.state.rolls = store.state.rolls.filter(roll => {
                     return roll.id != id;
                 })
             })
         },    
-        rollCustom(diceObj) {
+        rollCustom(i) {
+            let roll = {};
+            roll.userName = store.state.userName;
+            roll.room = store.state.roomID;
+            roll.timestamp = Date.now();
+            let diceObj = store.state.rolls[i];
             let counter = 0;
             let n = diceObj.attack.n;
             let m = diceObj.attack.m;
@@ -67,7 +72,9 @@ export default {
                 counter += Math.ceil(Math.random()*t);
             }
             let attackTotal = counter + m;
+            roll.attack = attackTotal;
             let title = "Roll: " + attackTotal.toString();
+            
 
             if(diceObj.damage) {
                 let counter = 0;
@@ -78,8 +85,16 @@ export default {
                     counter += Math.ceil(Math.random()*t);
                 }
                 let damageTotal = counter + m;
+                roll.damage = damageTotal
                 title += "\nDamage: " + damageTotal.toString();
             }
+
+            //if in a room, add the result to firebase messages
+            if(store.state.inRoom) {
+                firebase.firestore().collection("messages").doc().set(roll);
+            }
+
+            //Alert the user of the result
             swal({                  
                 position: 'top',                    
                 title: title,
@@ -87,29 +102,13 @@ export default {
                 customClass: "alert"                                   
             });
         }
-    },    
-    created() {
-        //clear the rolls array
-        this.rolls = [];
-        //fetch data from firestore
-        db.collection("rolls").where("id", "==", this.$store.state.uid).get()
-        .then(snapshot => {
-            snapshot.forEach(doc => {
-                let roll = doc.data();
-                roll.id = doc.id;
-                this.rolls.push(roll);
-            });            
-                this.loading = false;            
-        })
-    }  
+    }
 }
 </script>
 
 <style scoped>
     #custom {
         position: relative;
-        max-width: 1100px;
-        min-width: 340px;           
     }
     p {
         letter-spacing: 1.5px;

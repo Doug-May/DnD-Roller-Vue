@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-form ref="form" lazy-validation class="loginBox myCard">
-      <h1 class="darkText">Login</h1>
+      <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
+      <h1 class="darkText text-xs-center">Login</h1>
     <v-text-field
       @keyup.enter="login"
       v-if="$store.state.errors.email"   
@@ -75,10 +76,15 @@ export default {
   methods: {
     login: function() {
       const req = {
-        email: this.email,
+        email: this.email.trim(),
         password: this.password
       };
       this.$store.dispatch("login", req);
+    }
+  },
+  created() {
+    if(this.$store.state.uid) {
+      this.$router.push("/");
     }
   }
 };

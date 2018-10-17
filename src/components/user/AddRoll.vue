@@ -1,6 +1,7 @@
 <template>
     <div id="add" class="loginBox myCard">
-        <h1 class="darkText">Add Roll</h1>
+        <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
+        <h1 class="darkText text-xs-center">Add Roll</h1>
         <v-text-field
         label="Name of Roll"
         color="secondary"
@@ -119,16 +120,17 @@ export default {
                         newRoll.id = this.$store.state.uid;
                         newRoll.attack = {};
                         newRoll.attack.t = parseInt(this.attackType.substr(1));
-                        newRoll.attack.n = this.attackNumber || 1;
-                        newRoll.attack.m = this.attackModifier || 0;
+                        newRoll.attack.n = parseInt(this.attackNumber) || 1;
+                        newRoll.attack.m = parseInt(this.attackModifier) || 0;
                         if (this.addDamage) {
                             newRoll.damage = {};
                             newRoll.damage.t = parseInt(this.damageType.substr(1));
-                            newRoll.damage.n = this.damageNumber || 1;
-                            newRoll.damage.m = this.damageModifier || 0;
+                            newRoll.damage.n = parseInt(this.damageNumber) || 1;
+                            newRoll.damage.m = parseInt(this.damageModifier) || 0;
                         }
                         db.collection("rolls").add(newRoll)
                         .then(() => {
+                            this.$store.dispatch("refreshUser");
                             this.$router.push("/");
                         })
                         .catch(error => {

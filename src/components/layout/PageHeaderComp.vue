@@ -6,15 +6,20 @@
           <v-flex xs12>            
             <img id="logo" @click="$router.push('/')" src="@/assets/logo.png">            
             <h4 
-            v-if="!$store.state.isLoggedIn"
+            v-if="!$store.state.uid"
             class="headerLink" 
             @click="$router.push('/login')">
             Login</h4>                
             <h4 
-            v-if="$store.state.isLoggedIn"
+            v-if="$store.state.uid"
             class="headerLink" 
             @click="logout">
-            Logout</h4>                                                                          
+            Logout</h4>
+            <h4
+            v-if="$store.state.uid"      
+            class="headerLink" 
+            @click="$router.push('/profile')">
+            Profile</h4>                                                                           
             <h4      
             class="headerLink" 
             @click="$router.push('/about')">

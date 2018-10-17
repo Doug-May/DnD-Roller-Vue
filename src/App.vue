@@ -20,10 +20,7 @@ export default {
     Header
   },
   created() {
-        let user = firebase.auth().currentUser;
-        if (user) {        
-          this.$store.dispatch("persistedLogin", user);
-        }          
+    this.$store.dispatch("refreshUser");                 
   }
 }
 </script>
@@ -31,6 +28,10 @@ export default {
 <style>
 * {
   text-transform: none !important;
+}
+
+body {
+  padding-right: 0 !important;
 }
 
 #app {
@@ -58,7 +59,7 @@ export default {
 }
 
 .flexWrapper {
- padding: 5px;
+ padding: 7px;
  margin: 0px auto;
  width: 100%;
 }
@@ -73,12 +74,15 @@ export default {
   font-family: "Roboto", sans-serif !important;
   box-shadow: none !important;
   background-color: #f4f4f4 !important;
-  
 }
 
 .alert h1,h2,h3,h4,h5 {
   font-weight: 300 !important;
   letter-spacing: 2px !important;
+}
+
+.backButton {
+  cursor: pointer;
 }
 
 
@@ -89,6 +93,15 @@ a {
 h1,h2,h3,h4,h5 {
   font-weight: 300;
   letter-spacing: 2px;
+  margin-top: 5px;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+h2 {
+  margin-bottom: 10px;
 }
 
 p {
@@ -120,12 +133,19 @@ p {
   color: #4e5b6d;
 }
 
+.spacerLine {
+  width: 100%;
+  height: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #d0d0d0;
+}
+
 .router-anim-enter-active {
-  animation: coming 500ms;
+  animation: coming 350ms;
   opacity: 0;
 }
 .router-anim-leave-active {
-  animation: going 500ms;
+  animation: going 350ms;
 }
 @keyframes going {
   from {
