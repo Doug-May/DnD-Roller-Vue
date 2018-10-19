@@ -4,15 +4,19 @@
         <loader v-if="loading" />
         <div v-else>
             <h4 class="text-xs-center darkText" v-if="this.$store.state.rolls.length == 0">Your saved rolls will show up here</h4>
-            <v-icon v-if="this.$store.state.rolls.length < 8" id="addRoll" color="secondary" size="35" @click="$router.push('/add')">add_circle</v-icon>
+            <v-tooltip bottom>
+                <v-icon slot="activator" v-if="this.$store.state.rolls.length < 8" id="addRoll" color="secondary" size="35" @click="$router.push('/add')">add_circle</v-icon>
+                <span>Add Custom Roll</span>
+            </v-tooltip>
+            
             <v-layout row justify-space-between wrap>
-                <v-flex xlg3 lg4 md6 xs12 v-for="(roll, i) in this.$store.state.rolls" :key="i" class="flexWrapper">
+                <v-flex lg4 md6 xs12 v-for="(roll, i) in this.$store.state.rolls" :key="i" class="flexWrapper">
                     <v-layout row wrap justify-space-around align-center class="myCardDark">
                         <v-flex xs12>
                             <h3 class="text-xs-center">{{ roll.name }}</h3>
                         </v-flex>
                         <v-flex xs7>
-                            <p><span class="blueText">Roll:</span> ({{ roll.attack.n }})d{{
+                            <p><span class="greenText">Roll:</span> ({{ roll.attack.n }})d{{
                                 roll.attack.t}}+{{roll.attack.m}}</p>
                             <p v-if="roll.damage"><span class="redText">Damage:</span> ({{ roll.damage.n }})d{{
                                 roll.damage.t}}+{{roll.damage.m}}</p>
@@ -40,6 +44,7 @@ import swal from "sweetalert2";
 import firebase from "@/firebase/init.js";
 const db = firebase.firestore();
 import store from "@/store.js";
+import moment from "moment";
 export default {
     components: {
         Loader
@@ -130,14 +135,14 @@ export default {
     .redText {
         color: #e06d6d;
     }
-    .blueText {
-        color: #869ccc;
+    .greenText {
+        color: #4fad62;
     }
     #addRoll {
         cursor: pointer;
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: -43px;
+        right: -40px;
     }
 </style>
 

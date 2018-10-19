@@ -60,6 +60,7 @@
 <script>
 import swal from "sweetalert2";
 import firebase from "@/firebase/init.js";
+import moment from "moment";
 export default {
     name: "MainRoller",
     data: function() {
@@ -135,10 +136,12 @@ export default {
             let total = counter + m;
             roll.attack = total;
             let title = "You rolled: " + total;
+
             //if in a room, add the result to firebase messages
             if(this.$store.state.inRoom) {
                 firebase.firestore().collection("messages").doc().set(roll);
             }
+
             swal({                  
                     position: 'top',                    
                     title: title,

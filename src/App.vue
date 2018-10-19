@@ -130,7 +130,7 @@ p {
 }
 
 .darkText {
-  color: #4e5b6d;
+  color: #292e35;
 }
 
 .spacerLine {

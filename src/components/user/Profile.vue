@@ -38,6 +38,7 @@ export default {
     },
     methods: {
         deleteRoom(id, i) {
+            this.$store.commit("LEAVE_ROOM");
             firebase.firestore().collection("rooms").doc(id).delete()
             .then(() => {
                 this.$store.state.rooms = this.$store.state.rooms.filter(room => {

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router.js'
 import firebase from '@/firebase/init.js'
+import moment from "moment"
+let audio = new Audio(require('@/assets/addRoll.mp3'));
 
 Vue.use(Vuex)
 
@@ -15,6 +17,7 @@ export default new Vuex.Store({
     inRoom: false,
     roomID: '',
     messages: [],
+    playSound: false,
     errors: {}
   },
   mutations: {
@@ -37,13 +40,20 @@ export default new Vuex.Store({
       state.inRoom = true;
       state.roomID = payload.id;
     },
-    UPDATE_MESSAGES(state, payload) {
-      state.messages.push(payload);
+    LEAVE_ROOM(state) {
+      state.inRoom = false;
+      state.roomID = "";
+      state.messages = [];
     },
-    SET_MESSAGES(state, payload) {
-      payload.forEach(doc => {
-        state.messages.push(doc.data());
-      })
+    UPDATE_MESSAGES(state, payload) {
+      payload.timestamp = moment(payload.timestamp).format('lll');
+      state.messages.push(payload);
+      if(state.playSound) {
+        audio.play();
+      } 
+    },
+    CLEAR_MESSAGES(state) {
+      state.messages = [];
     }
   },
   actions: {
@@ -137,13 +147,6 @@ export default new Vuex.Store({
     },
     joinRoom({ commit }, payload) {
       commit("JOIN_ROOM", {id: payload.id});
-      firebase.firestore().collection("messages").where("room", "==", payload.id).orderBy("timestamp").get()
-      .then(snapshot => {
-        commit("SET_MESSAGES", snapshot);
-      })
-      .catch(err => {
-        console.log(err);
-      })
     }
   }
 })
