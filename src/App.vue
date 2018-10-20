@@ -82,6 +82,7 @@ body {
 }
 
 .backButton {
+  position: absolute;
   cursor: pointer;
 }
 

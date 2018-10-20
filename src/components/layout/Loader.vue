@@ -38,7 +38,7 @@
         border: 1px solid transparent;
         border-top-color: #4e5b6d;
         border-bottom-color: #4e5b6d;
-        animation: spin 500ms linear infinite
+        animation: spin 500ms linear infinite;
     }
 
     @keyframes spin {

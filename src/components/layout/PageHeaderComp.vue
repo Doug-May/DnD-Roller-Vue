@@ -4,7 +4,7 @@
       <v-toolbar flat color="#353331">
         <v-layout row>
           <v-flex xs12>            
-            <img id="logo" @click="$router.push('/')" src="@/assets/logo.png">            
+            <img id="logo" @click="$router.push('/')" src="@/assets/logo.png">
             <h4 
             v-if="!$store.state.uid"
             class="headerLink" 
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+
 export default {
   name: "PageHeaderComp",
   data: function() {
@@ -55,6 +56,7 @@ export default {
   cursor: pointer;
   font-size: 48px;
 }
+
 .headerLink {
   font-weight: 400;
   float: right;
@@ -65,9 +67,11 @@ export default {
   cursor: pointer;
   color: #b0b0b0;
 }
+
 .headerLink:hover {
   color: #4e5b6d;
 }
+
 #menu {
   float: right;
   margin-left: 8%;

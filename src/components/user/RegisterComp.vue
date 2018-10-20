@@ -5,13 +5,13 @@
       <h1 class="darkText text-xs-center">Register</h1>
     <v-text-field
       @keyup.enter="register"
-      v-if="$store.state.errors.name"   
+      v-if="$store.state.errors.userName"   
       v-model="userName"
       label="User Name"
       color="#a04b4b"
       outline
       required
-      :rules="[() => $store.state.errors.name]"
+      :rules="[() => $store.state.errors.userName]"
       error
     ></v-text-field>
     <v-text-field
@@ -112,6 +112,7 @@
 </template>
 
 <script>
+import Validate from "@/validation/registration.js";
 export default {
   name: "Register",
   data: function() {
@@ -126,12 +127,25 @@ export default {
   },
   methods: {
     register: function() {
-      const req = {
+      this.$store.commit("CLEAR_ERRORS");
+      //build the object for the current component state
+      let data = {};
+      data.userName = this.userName.trim();
+      data.password = this.password.trim();
+      data.password2 = this.password2.trim();
+      data.email = this.email.trim();
+      //Check input validation and dispatch register if it is
+      const {errors, isValid} = Validate(data);
+      if(!isValid){
+          this.$store.commit("SET_ERRORS", errors);
+      } else {
+        const req = {
         userName: this.userName.trim(),
         email: this.email.trim(),
         password: this.password.trim()       
-      };
-      this.$store.dispatch("register", req);
+        };
+        this.$store.dispatch("register", req);
+      }
     }
   }
 };

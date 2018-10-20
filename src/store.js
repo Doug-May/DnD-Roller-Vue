@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import router from '@/router.js'
 import firebase from '@/firebase/init.js'
 import moment from "moment"
-let audio = new Audio(require('@/assets/addRoll.mp3'));
+const audio = new Audio(require('@/assets/addRoll.mp3'));
 
 Vue.use(Vuex)
 
@@ -34,6 +34,10 @@ export default new Vuex.Store({
       state.userName = null;
       state.rolls = [];
       state.rooms = [];
+      state.inRoom = false;
+      state.roomID = '',
+      state.playSound = false;
+      state.errors = {};
       router.push("/login");
     },
     JOIN_ROOM(state, payload) {
@@ -54,20 +58,39 @@ export default new Vuex.Store({
     },
     CLEAR_MESSAGES(state) {
       state.messages = [];
+    },
+    SET_ERRORS(state, payload) {
+      state.errors = {...state.errors, ...payload};
+    },
+    CLEAR_ERRORS(state) {
+      state.errors = {};
+    },
+    CLEAR_ONE_ERROR(state, payload) {
+      delete state.errors[payload.key];
     }
   },
   actions: {
-    login({ dispatch }, payload) {
+    login({ dispatch, commit }, payload) {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(() => {
         dispatch("refreshUser");
         router.push("/");
       })
       .catch(error => {
-        console.log(error);
+        let payload = {};
+        if (error.code == "auth/invalid-email") {
+          payload.email = "Invalid Email";
+        }
+        if (error.code == "auth/user-not-found") {
+          payload.email = "User Not Found";
+        }
+        if (error.code == "auth/wrong-password") {
+          payload.password = "Incorrect Password";
+        }
+        commit("SET_ERRORS", payload);
       })
     },
-    register({ dispatch }, payload) {
+    register({ dispatch, commit }, payload) {
       //create the user in firebase authentication
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(user => {
@@ -80,12 +103,22 @@ export default new Vuex.Store({
           dispatch("refreshUser");
           router.push("/");
         })        
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          console.log(error);
         })        
       })
       .catch(error => {
-        console.log(error);
+        let payload = {};
+          if (error.code == "auth/email-already-in-use") {
+            payload.email = "Email Is Already In Use";
+          }
+          if (error.code == "auth/invalid-email") {
+            payload.email = "Invalid Email";
+          }
+          if (error.code == "auth/weak-password") {
+            payload.password = "Password Not Strong Enough";
+          }
+          commit("SET_ERRORS", payload);
       })
     },
     logout({ commit }) {

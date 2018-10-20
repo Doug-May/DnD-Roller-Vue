@@ -85,6 +85,8 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  //clear the errors object in the state
+  store.commit("CLEAR_ERRORS");
   //check if route requires auth and then redundancy
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
     if (store.state.uid) {

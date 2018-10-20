@@ -3,6 +3,18 @@
         <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
         <h1 class="darkText text-xs-center">Edit Roll</h1>
         <v-text-field
+        @keyup.enter="editRoll"
+        v-if="$store.state.errors.addName"   
+        v-model="name"
+        label="Name of Roll"
+        color="#a04b4b"
+        outline
+        required
+        :rules="[() => $store.state.errors.addName]"
+        error
+        ></v-text-field>
+        <v-text-field
+        v-else
         label="Name of Roll"
         color="secondary"
         outline
@@ -77,6 +89,7 @@
 import firebase from "@/firebase/init.js";
 import slugify from "slugify";
 const db = firebase.firestore();
+import Validate from "@/validation/addRoll.js";
 export default {
     name: "add",
     data() {
@@ -104,9 +117,10 @@ export default {
     },
     methods: {
         editRoll() {
-            console.log(this.rollID);
-            if (this.name == "") {
-                errors.name = "You must name your roll"
+            this.$store.commit("CLEAR_ERRORS");
+            const {errors, isValid} = Validate({addName: this.name.trim()});
+            if (!isValid) {
+                this.$store.commit("SET_ERRORS", errors);
             } else {
                 let newRoll = {};
                 newRoll.name = this.name;

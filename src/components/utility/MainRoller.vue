@@ -165,8 +165,8 @@ export default {
     }
     #dice {
         cursor: pointer;
-        max-width: 70px;
-        margin-left: 25px;
+        max-width: 50px;
+        margin-left: 45px;
     }
     #clear {
         cursor: pointer;
@@ -180,8 +180,8 @@ export default {
         font-size: 12px;
     }
     #history {
-        margin-top: 10px;
-        margin-left: 35px;
+        margin-top: 5px;
+        margin-left: 45px;
     }
     #plus {
         margin-left: 10px;

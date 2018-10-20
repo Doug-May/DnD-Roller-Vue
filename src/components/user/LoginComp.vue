@@ -75,9 +75,10 @@ export default {
   },
   methods: {
     login: function() {
+      this.$store.commit("CLEAR_ERRORS");
       const req = {
         email: this.email.trim(),
-        password: this.password
+        password: this.password.trim()
       };
       this.$store.dispatch("login", req);
     }

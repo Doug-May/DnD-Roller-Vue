@@ -3,6 +3,18 @@
         <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
         <h1 class="darkText text-xs-center">Add Roll</h1>
         <v-text-field
+        @keyup.enter="addRoll"
+        v-if="$store.state.errors.addName"   
+        v-model="name"
+        label="Name of Roll"
+        color="#a04b4b"
+        outline
+        required
+        :rules="[() => $store.state.errors.addName]"
+        error
+        ></v-text-field>
+        <v-text-field
+        v-else
         label="Name of Roll"
         color="secondary"
         outline
@@ -76,7 +88,8 @@
 <script>
 import firebase from "@/firebase/init.js";
 const db = firebase.firestore();
-import slugify from "slugify"
+import slugify from "slugify";
+import Validate from "@/validation/addRoll.js";
 export default {
     name: "add",
     data() {
@@ -103,16 +116,18 @@ export default {
     },
     methods: {
         addRoll() {
-            if (this.name == "") {
-                errors.name = "You must name your roll"
+            this.$store.commit("CLEAR_ERRORS");
+            const {errors, isValid} = Validate({addName: this.name.trim()});
+            if (!isValid) {
+                this.$store.commit("SET_ERRORS", errors);
             } else {
                 //add the document to the collection if the user has less than 8
                 db.collection("rolls").where("id", "==", this.$store.state.uid).get()
                 .then(snapshot => {              
                     if (snapshot.size <= 8) {
                         let newRoll = {};
-                        newRoll.name = this.name;
-                        newRoll.slug = slugify(this.name, {
+                        newRoll.name = this.name.trim();
+                        newRoll.slug = slugify(this.name.trim(), {
                             replacement: '-',
                             remove: /[$*_+~.()'"!\-:@]/g,
                             lower: true
