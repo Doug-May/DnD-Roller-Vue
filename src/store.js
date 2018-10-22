@@ -4,6 +4,7 @@ import router from '@/router.js'
 import firebase from '@/firebase/init.js'
 import moment from "moment"
 const audio = new Audio(require('@/assets/addRoll.mp3'));
+import swal from "sweetalert2";
 
 Vue.use(Vuex)
 
@@ -45,6 +46,15 @@ export default new Vuex.Store({
       state.roomID = payload.id;
     },
     LEAVE_ROOM(state) {
+      swal({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 3000,
+        type: "success",
+        title: 'Left "' + state.roomID + '"',
+        customClass: "alert"
+        }); 
       state.inRoom = false;
       state.roomID = "";
       state.messages = [];
@@ -74,6 +84,15 @@ export default new Vuex.Store({
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(() => {
         dispatch("refreshUser");
+        swal({
+          toast: true,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 3000,
+          type: "success",
+          title: "Logged In",
+          customClass: "alert"
+        });
         router.push("/");
       })
       .catch(error => {
@@ -101,6 +120,15 @@ export default new Vuex.Store({
         firebase.firestore().collection("users").add(newUser)
         .then(() => {
           dispatch("refreshUser");
+          swal({
+            toast: true,
+            position: "bottom-end",
+            showConfirmButton: false,
+            timer: 3000,
+            type: "success",
+            title: "Registered!",
+            customClass: "alert"
+          });
           router.push("/");
         })        
         .catch(error => {
@@ -123,7 +151,16 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       firebase.auth().signOut()
-      .then(() => {        
+      .then(() => {
+        swal({
+          toast: true,
+          position: "bottom-end",
+          showConfirmButton: false,
+          timer: 3000,
+          type: "success",
+          title: "Logged Out",
+          customClass: "alert"
+        });        
         commit("LOGOUT");        
       })
       .catch(error => {

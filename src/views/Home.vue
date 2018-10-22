@@ -7,12 +7,12 @@
     </v-layout>  
     <div v-if="this.$store.state.uid">
         <v-layout row wrap justify-center>
-            <v-flex lg9 md10 sm6 xs12 >
+            <v-flex xs12 >
                 <custom/>
             </v-flex>
         </v-layout>
         <v-layout row wrap justify-center>
-            <v-flex lg9 md10 sm6 xs12 >
+            <v-flex xs12 >
                 <room/>
             </v-flex>
         </v-layout>                                

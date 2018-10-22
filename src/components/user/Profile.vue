@@ -28,6 +28,7 @@
 
 <script>
 import firebase from "@/firebase/init.js"
+import swal from "sweetalert2"
 export default {
     name: "profile",
     data() {
@@ -39,7 +40,16 @@ export default {
     methods: {
         deleteRoom(id, i) {
             this.$store.commit("LEAVE_ROOM");
-            firebase.firestore().collection("rooms").doc(id).delete()
+            swal({
+            title: "Delete Room?",
+            showCancelButton: true,
+            confirmButtonColor: '#e06b6b',
+            cancelButtonColor: '#596177',
+            confirmButtonText: 'Yes, Delete It',
+            customClass: "alert"
+            }).then((result) => {
+            if (result.value) {
+               firebase.firestore().collection("rooms").doc(id).delete()
             .then(() => {
                 this.$store.state.rooms = this.$store.state.rooms.filter(room => {
                     return room.docID != id;
@@ -49,13 +59,23 @@ export default {
                     snapshot.forEach(doc => {
                         firebase.firestore().collection("messages").doc(doc.id).delete();
                     })
-                })
-                
-                alert("successfully deleted room");
+                })                
+                swal({
+                    toast: true,
+                    position: "bottom-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    type: "success",
+                    title: "Deleted!",
+                    customClass: "alert"
+                    });
             })
             .catch(err => {
                 console.log(err);
-            })
+            }) 
+            }
+            });
+            
         }
     }
 }
@@ -64,7 +84,7 @@ export default {
 <style scoped>
     #roomCard {
         width: 300px;  
-        background-color: #f4f4f4;
+        background-color: #fff;
         padding: 5px;
         margin: 5px 0px;
         border-radius: 10px;

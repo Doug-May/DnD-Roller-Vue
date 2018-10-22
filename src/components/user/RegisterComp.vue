@@ -2,7 +2,7 @@
   <div>
     <v-form ref="form" lazy-validation class="loginBox myCard">
       <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
-      <h1 class="darkText text-xs-center">Register</h1>
+      <h2 class="darkText text-xs-center">Register</h2>
     <v-text-field
       @keyup.enter="register"
       v-if="$store.state.errors.userName"   

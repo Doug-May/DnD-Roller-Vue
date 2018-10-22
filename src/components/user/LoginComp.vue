@@ -2,7 +2,7 @@
   <div>
     <v-form ref="form" lazy-validation class="loginBox myCard">
       <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
-      <h1 class="darkText text-xs-center">Login</h1>
+      <h2 class="darkText text-xs-center">Login</h2>
     <v-text-field
       @keyup.enter="login"
       v-if="$store.state.errors.email"   
@@ -58,7 +58,7 @@
     Submit
     </v-btn>
   </v-form>
-  <p>Don't have an account? Click <span class="redirect" @click="$router.push('/register')">here</span> to create one</p>
+  <p>Click <span class="redirect" @click="$router.push('/register')">here</span> to create an account</p>
   </div>
 </template>
 

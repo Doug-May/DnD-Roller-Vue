@@ -32,29 +32,33 @@ export default {
 
 body {
   padding-right: 0 !important;
+  background-color: #353331;
+  
 }
 
 #app {
-  background-color: #353331;
   color: #d0d0d0;
   font-family: "Roboto", sans-serif;
+  background-color: #353331;
+  background-image: url("./assets/background.jpg");
+  background-size: cover;
 }
 
 .myCard {
-  background-color: #f4f4f4;
+  background-color: #fff;
   padding: 5px;
   margin: 12px auto;
   border-radius: 10px;
   box-shadow: 5px 5px 25px #151515;
-  width: 100%;
+  max-width: 850px;
 }
 
 .myCardDark {
   background-color: #353331;
-  padding: 15px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 5px 5px 10px #d6d4d4;
-  /* max-width: 400px; */
+  max-width: 300px;
   margin: 0px auto;
 }
 
@@ -73,7 +77,6 @@ body {
 .alert {
   font-family: "Roboto", sans-serif !important;
   box-shadow: none !important;
-  background-color: #f4f4f4 !important;
 }
 
 .alert h1,h2,h3,h4,h5 {

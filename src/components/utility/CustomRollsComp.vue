@@ -3,14 +3,18 @@
         <h2 class="darkText text-xs-center">Custom Rolls</h2>
         <loader v-if="loading" />
         <div v-else>
-            <h4 class="text-xs-center darkText" v-if="this.$store.state.rolls.length == 0">Your saved rolls will show up here</h4>
+            <div v-if="this.$store.state.rolls.length == 0">
+                <h4 class="text-xs-center darkText">Your saved rolls will show up here</h4>
+            <v-btn @click="$router.push('/add')" id="createRoll" color="secondary" round block>Create A Roll</v-btn>
+            </div>
+            
             <v-tooltip bottom>
-                <v-icon slot="activator" v-if="this.$store.state.rolls.length < 8" id="addRoll" color="secondary" size="35" @click="$router.push('/add')">add_circle</v-icon>
+                <v-icon slot="activator" v-if="this.$store.state.rolls.length < 8 && this.$store.state.rolls.length > 0" id="addRoll" color="secondary" size="35" @click="$router.push('/add')">add_circle</v-icon>
                 <span>Add Custom Roll</span>
             </v-tooltip>
             
             <v-layout row justify-space-between wrap>
-                <v-flex lg4 md6 xs12 v-for="(roll, i) in this.$store.state.rolls" :key="i" class="flexWrapper">
+                <v-flex lg4 md4 sm6 xs12 v-for="(roll, i) in this.$store.state.rolls" :key="i" class="flexWrapper">
                     <v-layout row wrap justify-space-around align-center class="myCardDark">
                         <v-flex xs12>
                             <h3 class="text-xs-center">{{ roll.name }}</h3>
@@ -56,12 +60,32 @@ export default {
     },
     methods: {
         deleteRoll(id) {
-            db.collection("rolls").doc(id).delete()
-            .then(() => {
-                store.state.rolls = store.state.rolls.filter(roll => {
-                    return roll.id != id;
+            swal({
+            title: "Delete Roll?",
+            showCancelButton: true,
+            confirmButtonColor: '#e06b6b',
+            cancelButtonColor: '#596177',
+            confirmButtonText: 'Yes, Delete It',
+            customClass: "alert"
+            }).then((result) => {
+            if (result.value) {
+                db.collection("rolls").doc(id).delete()
+                .then(() => {
+                    store.state.rolls = store.state.rolls.filter(roll => {
+                        return roll.id != id;
+                    })
+                    swal({
+                    toast: true,
+                    position: "bottom-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    type: "success",
+                    title: "Deleted!",
+                    customClass: "alert"
+                    });
                 })
-            })
+            }
+            });
         },    
         rollCustom(i) {
             let roll = {};
@@ -130,7 +154,7 @@ export default {
         margin: 0px 5px;
     }
     .rollButton {    
-        margin-left: -30px;
+        margin-left: -50px;
     }
     .redText {
         color: #e06d6d;
@@ -143,6 +167,10 @@ export default {
         position: absolute;
         top: -43px;
         right: -40px;
+    }
+    #createRoll {
+        width: 200px;
+        margin: 20px auto;
     }
 </style>
 

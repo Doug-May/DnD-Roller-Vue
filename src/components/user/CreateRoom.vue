@@ -2,7 +2,7 @@
     <div>
     <v-form ref="form" lazy-validation class="loginBox myCard">
         <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
-      <h1 class="darkText text-xs-center">Create Room</h1>
+      <h2 class="darkText text-xs-center">Create Room</h2>
     <v-text-field
       @keyup.enter="createRoom"
       v-if="$store.state.errors.roomName"   
@@ -59,6 +59,7 @@
 <script>
 import firebase from "@/firebase/init.js";
 import Validate from "@/validation/createRoom.js";
+import swal from "sweetalert2";
 export default {
     data() {
         return {
@@ -88,7 +89,15 @@ export default {
                         ref.set(newRoom)
                         .then(() => {
                             this.$store.dispatch("refreshUser");
-                            alert("success");
+                            swal({
+                            toast: true,
+                            position: "bottom-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            type: "success",
+                            title: "Room Created",
+                            customClass: "alert"
+                            });  
                             this.$router.go(-1);
                         })
                         .catch(err => {

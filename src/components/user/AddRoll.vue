@@ -1,7 +1,7 @@
 <template>
     <div id="add" class="loginBox myCard">
         <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
-        <h1 class="darkText text-xs-center">Add Roll</h1>
+        <h2 class="darkText text-xs-center">Create Roll</h2>
         <v-text-field
         @keyup.enter="addRoll"
         v-if="$store.state.errors.addName"   

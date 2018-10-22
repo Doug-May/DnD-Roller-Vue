@@ -18,6 +18,10 @@ module.exports = function validateInput(data) {
         errors.roomName = "Room name is required";
     }
 
+    if (data.password.length < 2 || data.password.length > 20) {
+        errors.password = 'Password must be between 2 and 20 characters';
+    }
+
     if (data.password == "" || data.password === null || data.password === undefined) {
         errors.password = "Password is required";
     }

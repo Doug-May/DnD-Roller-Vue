@@ -18,5 +18,7 @@ export default {
 
 
 <style scoped>
-
+    #room{
+        margin-bottom: 60px;
+    }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <v-container>
-      <v-toolbar flat color="#353331">
+      
         <v-layout row>
           <v-flex xs12>            
             <img id="logo" @click="$router.push('/')" src="@/assets/logo.png">
@@ -26,7 +26,7 @@
             About</h4>                                       
           </v-flex>
         </v-layout>
-      </v-toolbar>
+      
     </v-container>
   </div>
 </template>
@@ -48,9 +48,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#header{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 #logo {
   float: left;
-  margin-top: -15px;
+  margin-top: -10px;
   transition: 200ms;
   width: 40px;
   cursor: pointer;
