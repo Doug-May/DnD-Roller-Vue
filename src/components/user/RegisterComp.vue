@@ -1,10 +1,9 @@
 <template>
   <div>
-    <v-form ref="form" lazy-validation class="loginBox myCard">
+    <div @keyup.prevent.enter="register" ref="form" lazy-validation class="loginBox myCard">
       <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
       <h2 class="darkText text-xs-center">Register</h2>
     <v-text-field
-      @keyup.enter="register"
       v-if="$store.state.errors.userName"   
       v-model="userName"
       label="User Name"
@@ -16,7 +15,6 @@
     ></v-text-field>
     <v-text-field
       v-else
-      @keyup.enter="register"
       v-model="userName"
       outline
       color="secondary"
@@ -25,7 +23,6 @@
     ></v-text-field>
 
     <v-text-field
-      @keyup.enter="register"
       v-if="$store.state.errors.email"   
       v-model="email"
       label="E-mail"
@@ -37,7 +34,6 @@
     ></v-text-field>
     <v-text-field
       v-else
-      @keyup.enter="register"
       v-model="email"
       outline
       color="secondary"
@@ -46,7 +42,6 @@
     ></v-text-field>
 
     <v-text-field
-      @keyup.enter="register"
       v-if="$store.state.errors.password"
       v-model="password"
       outline
@@ -60,7 +55,6 @@
     ></v-text-field>
     <v-text-field
       v-else
-      @keyup.enter="register"
       v-model="password"
       color="secondary"
       outline
@@ -72,7 +66,6 @@
     ></v-text-field>
 
    <v-text-field
-      @keyup.enter="register"
       v-if="$store.state.errors.password2"
       v-model="password2"
       outline
@@ -86,7 +79,6 @@
     ></v-text-field>
     <v-text-field
       v-else
-      @keyup.enter="register"
       v-model="password2"
       color="secondary"
       outline
@@ -106,7 +98,7 @@
     >
     Submit
     </v-btn>
-  </v-form>
+  </div>
   <p>Back to <span class="redirect" @click="$router.push('/login')">login</span></p>
   </div>
 </template>

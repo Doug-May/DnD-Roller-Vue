@@ -1,10 +1,9 @@
 <template>
     <div>
-    <v-form ref="form" lazy-validation class="loginBox myCard">
+    <div @keyup.prevent.enter="createRoom" ref="form" lazy-validation class="loginBox myCard">
         <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
       <h2 class="darkText text-xs-center">Create Room</h2>
     <v-text-field
-      @keyup.enter="createRoom"
       v-if="$store.state.errors.roomName"   
       v-model="roomName"
       label="Room Name"
@@ -15,7 +14,6 @@
       error
     ></v-text-field>
     <v-text-field
-      @keyup.enter="createRoom"
       v-else
       v-model="roomName"
       outline
@@ -24,7 +22,6 @@
       required
     ></v-text-field>
     <v-text-field
-      @keyup.enter="createRoom"
       v-if="$store.state.errors.password"   
       v-model="password"
       label="Password"
@@ -35,7 +32,6 @@
       error
     ></v-text-field>
     <v-text-field
-      @keyup.enter="createRoom"
       v-else
       v-model="password"
       outline
@@ -52,7 +48,7 @@
     >
     Create
     </v-btn>
-  </v-form>
+  </div>
   </div>
 </template>
 

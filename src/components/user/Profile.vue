@@ -1,7 +1,8 @@
 <template>
     <div class="textBlock">
         <h1>Profile</h1>
-        <h3>{{ userName }}<br>{{ email }}</h3>
+        <h3>{{ userName }}<v-icon id="edit" color="#d0d0d0" size="17" @click="$router.push('/editusername')">edit</v-icon>
+        <br>{{ email }}</h3>
         <div class="spacerLine"></div>
         <h1>Rooms</h1>
         <h3 v-if="this.$store.state.rooms.length == 0">You don't have any rooms yet!</h3>
@@ -100,6 +101,9 @@ export default {
         margin: 10px 5px 10px 30px;
     }
 
+#edit {
+    margin-left: 10px;
+}
     
     .icon {
         bottom: 5px;

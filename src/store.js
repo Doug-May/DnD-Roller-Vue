@@ -19,6 +19,7 @@ export default new Vuex.Store({
     roomID: '',
     messages: [],
     playSound: false,
+    rollHistory: [],
     errors: {}
   },
   mutations: {

@@ -1,24 +1,24 @@
 <template>
     <v-container id="roller" align-center justify-center class="myCard">
-        <v-layout row justify-space-between>
+        <v-layout row justify-space-between class="myCardDark logo">
             <v-flex xs5>
                 <img id="dice" :src="imgSRC" @click="initiateRoll(null)">
             </v-flex>
             <v-flex id="history" xs6>
-                <v-menu v-if="this.rollHistory.length > 0" bottom>
-                    <h3 class="darkText" slot="activator">History</h3>
+                <v-menu v-if="this.$store.state.rollHistory.length > 0" bottom>
+                    <h3 slot="activator">History</h3>
                     <v-icon slot="activator" color="secondary" dark>
                         arrow_drop_down
                     </v-icon>
                     <v-list>
-                        <v-list-tile v-for="(roll, i) in this.rollHistory" :key="i" @click="initiateRoll(rollHistory[i])">
+                        <v-list-tile v-for="(roll, i) in this.$store.state.rollHistory" :key="i" @click="initiateRoll($store.state.rollHistory[i])">
                             <v-list-tile-title>({{ roll.number }})d{{ roll.diceType}} + {{ roll.modifier}}</v-list-tile-title>
                         </v-list-tile>
                     </v-list>
                 </v-menu>
                 <div v-else>
-                    <h3 class="darkText">History</h3>
-                    <h5 class="darkText">Make a Roll</h5>
+                    <h3>History</h3>
+                    <h5>Make a Roll</h5>
                 </div>
             </v-flex>
         </v-layout>
@@ -30,7 +30,7 @@
                     <span>Number of Dice</span>
                 </v-tooltip>
             </v-flex>
-            <v-flex xs2>
+            <v-flex xs3>
                 <v-select slot="activator" v-model="diceType" :items="dice" color="accent" height="15px"></v-select>
             </v-flex>
             <v-flex xs2>
@@ -44,7 +44,7 @@
                 </v-tooltip>
 
             </v-flex>
-            <v-flex xs2>
+            <v-flex xs1>
                 <v-slide-y-transition>
                     <v-icon v-if="this.number || this.diceType !== 'd20' || this.modifier" @click="clear" slot="activator"
                         id="clear">clear</v-icon>
@@ -54,6 +54,12 @@
         <v-btn @click="initiateRoll(null)" block round id="submitButton" color="secondary">
             Roll
         </v-btn>
+        <v-checkbox
+            class="privateMode"
+            v-if="this.$store.state.inRoom"
+            label="Private Mode"
+            v-model="privateMode"
+        ></v-checkbox>
     </v-container>
 </template>
 
@@ -64,7 +70,8 @@ import moment from "moment";
 export default {
     name: "MainRoller",
     data: function() {
-        return {                   
+        return {
+            privateMode: false,                   
             diceType: "d20",
             number: null,
             modifier: null,
@@ -76,8 +83,7 @@ export default {
                 "d6",
                 "d4",
                 "d100",
-            ],
-            rollHistory: []         
+            ]
         }
     },
     methods: {
@@ -107,16 +113,16 @@ export default {
         checkHistory(diceObj) {
             //push this roll to history if unique
             let unique = true;         
-            for (let i = 0; i < this.rollHistory.length; i++) {
-                if(this.rollHistory[i].number === diceObj.number && this.rollHistory[i].modifier === diceObj.modifier && this.rollHistory[i].diceType === diceObj.diceType) {
+            for (let i = 0; i < this.$store.state.rollHistory.length; i++) {
+                if(this.$store.state.rollHistory[i].number === diceObj.number && this.$store.state.rollHistory[i].modifier === diceObj.modifier && this.$store.state.rollHistory[i].diceType === diceObj.diceType) {
                     unique = false
                 } 
             }
-            if (unique && this.rollHistory.length == 6) {
-                this.rollHistory.shift();                        
+            if (unique && this.$store.state.rollHistory.length == 6) {
+                this.$store.state.rollHistory.shift();                        
             } 
             if (unique) {
-                this.rollHistory.push(diceObj);                        
+                this.$store.state.rollHistory.push(diceObj);                        
             }       
             //send the object off for rolling after rollHistory has been updated                 
             this.makeRoll(diceObj);                      
@@ -137,8 +143,16 @@ export default {
             roll.attack = total;
             let title = "You rolled: " + total;
 
+            //Add "natural" messages if only one dice was rolled
+            if(n == 1 && t == 20 && counter == 20) {
+                title = "Natural 20!\n" + title;
+            }
+            if(n == 1 && t== 20 && counter == 1) {
+                title = "Natural 1!\n" + title;
+            }
+
             //if in a room, add the result to firebase messages
-            if(this.$store.state.inRoom) {
+            if(this.$store.state.inRoom && !this.privateMode) {
                 firebase.firestore().collection("messages").doc().set(roll);
             }
 
@@ -160,17 +174,21 @@ export default {
 
 <style scoped>
     #roller {
-        max-width: 350px;
+        max-width: 320px;
         padding: 25px;
+    }
+    .logo {
+        margin-bottom: 10px;
     }
     #dice {
         cursor: pointer;
-        max-width: 50px;
-        margin-left: 45px;
+        max-width: 70px;
+        margin-left: 35px;
+        margin: 7px 0px 2px 35px;
     }
     #clear {
         cursor: pointer;
-        margin-left: 20px;
+        margin-left: 10px;
     }
     #rollItem {
         cursor: pointer;
@@ -180,12 +198,18 @@ export default {
         font-size: 12px;
     }
     #history {
-        margin-top: 5px;
-        margin-left: 45px;
+        margin-top: 20px;
+        margin-left: 35px;
     }
-    #plus {
-        margin-left: 10px;
+    .privateMode {
+        margin-bottom: -30px;
+    }
+    h3{
+        font-size: 20px;
     }  
+    h5{
+        margin-top: -5px;
+    }
     .roll{
         animation: roll 300ms ease-in-out;
     }

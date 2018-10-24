@@ -4,7 +4,7 @@
       
         <v-layout row>
           <v-flex xs12>            
-            <img id="logo" @click="$router.push('/')" src="@/assets/logo.png">
+            <img id="logo" @click="$router.push('/')" src="@/assets/dice/d10.png">
             <h4 
             v-if="!$store.state.uid"
             class="headerLink" 
@@ -54,9 +54,9 @@ export default {
 }
 #logo {
   float: left;
-  margin-top: -10px;
+  margin-top: -20px;
   transition: 200ms;
-  width: 40px;
+  width: 50px;
   cursor: pointer;
   font-size: 48px;
 }

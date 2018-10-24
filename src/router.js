@@ -8,6 +8,8 @@ import Add from '@/views/Add.vue'
 import Edit from '@/views/Edit.vue'
 import Profile from '@/views/Profile.vue'
 import CreateRoom from '@/views/CreateRoom.vue'
+import EditUserName from '@/views/EditUserName.vue'
+import ResetPassword from '@/views/ResetPassword'
 import store from '@/store.js'
 
 Vue.use(Router)
@@ -46,6 +48,14 @@ const router = new Router({
       }
     },
     {
+      path: '/editusername',
+      name: 'editusername',
+      component: EditUserName,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/edit/:slug',
       name: 'edit',
       component: Edit,
@@ -62,6 +72,14 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: Login,
+      meta: {
+        redundantRoute: true
+      }
+    },
+    {
+      path: '/resetpassword',
+      name: 'resetpassword',
+      component: ResetPassword,
       meta: {
         redundantRoute: true
       }

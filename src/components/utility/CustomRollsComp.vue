@@ -103,6 +103,14 @@ export default {
             let attackTotal = counter + m;
             roll.attack = attackTotal;
             let title = "Roll: " + attackTotal.toString();
+
+            //Add "natural" messages if only one dice was rolled
+            if(n == 1 && t == 20 && counter == 20) {
+                title = "Natural 20!\n" + title;
+            }
+            if(n == 1 && t== 20 && counter == 1) {
+                title = "Natural 1!\n" + title;
+            }
             
 
             if(diceObj.damage) {

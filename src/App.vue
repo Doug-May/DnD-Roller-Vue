@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+<div id="app" class="fadeIn">
   <v-app>
     <Header/>
     <v-container>
@@ -33,15 +33,14 @@ export default {
 body {
   padding-right: 0 !important;
   background-color: #353331;
-  
 }
 
 #app {
   color: #d0d0d0;
   font-family: "Roboto", sans-serif;
-  background-color: #353331;
   background-image: url("./assets/background.jpg");
-  background-size: cover;
+  background-size: 150% auto;
+  background-attachment: fixed;
 }
 
 .myCard {
@@ -71,7 +70,7 @@ body {
 .loginBox {
   max-width: 700px;
   margin: auto;
-  padding: 30px;
+  padding: 20px 30px 30px 30px;
 }
 
 .alert {
@@ -151,6 +150,11 @@ p {
 .router-anim-leave-active {
   animation: going 350ms;
 }
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn 1000ms forwards 1;
+  animation-delay: 500ms;
+}
 @keyframes going {
   from {
     transform: translateY(0);
@@ -167,6 +171,16 @@ p {
   }
   to {
     transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    /* transform: translate(0px, 30px); */
+    opacity: 0;
+  }
+  to {
+    /* transform: translate(0px, 0px); */
     opacity: 1;
   }
 }

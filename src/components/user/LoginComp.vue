@@ -1,10 +1,9 @@
 <template>
   <div>
-    <v-form ref="form" lazy-validation class="loginBox myCard">
+    <div @keyup.prevent.enter="login" ref="form" lazy-validation class="loginBox myCard">
       <v-icon class="backButton" @click="$router.go(-1)">keyboard_backspace</v-icon>
       <h2 class="darkText text-xs-center">Login</h2>
     <v-text-field
-      @keyup.enter="login"
       v-if="$store.state.errors.email"   
       v-model="email"
       label="E-mail"
@@ -15,7 +14,6 @@
       error
     ></v-text-field>
     <v-text-field
-      @keyup.enter="login"
       v-else
       v-model="email"
       outline
@@ -24,7 +22,6 @@
       required
     ></v-text-field>
    <v-text-field
-      @keyup.enter="login"
       v-if="$store.state.errors.password"
       v-model="password"
       outline
@@ -37,7 +34,6 @@
       @click:append="show1 = !show1"
     ></v-text-field>
     <v-text-field
-      @keyup.enter="login"
       v-else
       v-model="password"
       color="secondary"
@@ -48,6 +44,7 @@
       :append-icon="show1 ? 'visibility' : 'visibility_off'"
       @click:append="show1 = !show1"
     ></v-text-field>
+    
     <v-btn
       block
       round
@@ -57,7 +54,8 @@
     >
     Submit
     </v-btn>
-  </v-form>
+    <p class="redirect darkText forgot" @click="$router.push('/resetpassword')" >Forgot your password?</p>
+  </div>
   <p>Click <span class="redirect" @click="$router.push('/register')">here</span> to create an account</p>
   </div>
 </template>
@@ -103,6 +101,10 @@ export default {
 p {
   text-align: center;
   margin-top: 30px;
+}
+
+.forgot {
+  margin: 20px auto -15px auto;
 }
 
 h1 {
