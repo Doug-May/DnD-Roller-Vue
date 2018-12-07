@@ -2,6 +2,9 @@
 node_modules
 /dist
 /src/firebase
+firebase.json
+firestore.indexes.json
+firestore.rules
 
 # local env files
 .env.local

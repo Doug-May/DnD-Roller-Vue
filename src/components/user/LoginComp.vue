@@ -54,7 +54,7 @@
     >
     Submit
     </v-btn>
-    <p class="redirect darkText forgot" @click="$router.push('/resetpassword')" >Forgot your password?</p>
+    <p class="redirect darkText forgot" @click="$router.push('/resetpassword')">Forgot your password?</p>
   </div>
   <p>Click <span class="redirect" @click="$router.push('/register')">here</span> to create an account</p>
   </div>

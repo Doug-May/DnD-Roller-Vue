@@ -5,7 +5,7 @@
     <v-container>
       <transition name="router-anim" mode="out-in">
           <router-view/>
-        </transition>
+      </transition>
     </v-container>    
   </v-app>
 </div>  
